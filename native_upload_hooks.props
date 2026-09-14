@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup><FC5MinHookDir>$(MSBuildThisFileDirectory)Luma-Framework\Source\External\reshade\deps\minhook\</FC5MinHookDir></PropertyGroup>
+  <ItemGroup>
+    <ClCompile Include="$(FC5MinHookDir)src\buffer.c;$(FC5MinHookDir)src\hook.c;$(FC5MinHookDir)src\trampoline.c;$(FC5MinHookDir)src\hde\hde64.c">
+      <CompileAs>CompileAsC</CompileAs><TreatWarningAsError>false</TreatWarningAsError><PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+</Project>

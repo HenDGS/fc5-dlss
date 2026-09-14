@@ -1,0 +1,16 @@
+/artifacts/
+/.vs/
+*.user
+*.suo
+*.log
+*.pdb
+*.cso
+*.dll
+*.addon64
+*.zip
+*.ini
+SDD.md
+**/SDD.md
+**/Dump/
+**/Captures/
+*.meta

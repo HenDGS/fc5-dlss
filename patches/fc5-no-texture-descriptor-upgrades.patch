@@ -1,0 +1,15 @@
+diff --git a/Source/Core/core.hpp b/Source/Core/core.hpp
+--- a/Source/Core/core.hpp
++++ b/Source/Core/core.hpp
+@@ -8689,7 +8689,10 @@
+       default:
+       break;
+-#if !defined(GAME_PERSONA_5) && !defined(GAME_METAPHOR)
++// FC5 preserves native texture formats and owns its DLSS intermediates directly.
++// It does not use Luma resource mirrors/chained upgrades. Keep constant-buffer
++// handling below, but avoid allocating/looking up every native texture bind.
++#if !defined(GAME_PERSONA_5) && !defined(GAME_METAPHOR) && !defined(GAME_FAR_CRY_5)
+       case reshade::api::descriptor_type::texture_unordered_access_view:
+       case reshade::api::descriptor_type::texture_shader_resource_view:
+       {
+          reshade::api::descriptor_table_update replaced_update = update;
