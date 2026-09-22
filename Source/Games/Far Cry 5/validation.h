@@ -55,10 +55,12 @@ namespace FC5
       return d.Width && d.Height && d.MipLevels == 1 && d.ArraySize == 1 &&
          d.SampleDesc.Count == 1 && d.SampleDesc.Quality == 0;
    }
-   inline bool IsTemporalColorView(DXGI_FORMAT resource, DXGI_FORMAT view, bool allow_fp16)
+   inline bool IsTemporalColorView(DXGI_FORMAT resource, DXGI_FORMAT view, bool allow_fp16, bool allow_pq = false)
    {
       return IsRGBA8View(resource, view) || (allow_fp16 && view == DXGI_FORMAT_R16G16B16A16_FLOAT &&
-         (resource == view || resource == DXGI_FORMAT_R16G16B16A16_TYPELESS));
+         (resource == view || resource == DXGI_FORMAT_R16G16B16A16_TYPELESS)) ||
+         (allow_pq && view == DXGI_FORMAT_R10G10B10A2_UNORM &&
+            (resource == view || resource == DXGI_FORMAT_R10G10B10A2_TYPELESS));
    }
    inline bool CanCopyWhole(const D3D11_TEXTURE2D_DESC& a, const D3D11_TEXTURE2D_DESC& b)
    {
@@ -96,12 +98,12 @@ namespace FC5
    }
    inline bool CanRouteUpscale(const D3D11_TEXTURE2D_DESC& source,
       const D3D11_TEXTURE2D_DESC& target, DXGI_FORMAT source_view, DXGI_FORMAT target_view,
-      UINT iw, UINT ih, UINT ow, UINT oh, bool same_resource, bool allow_fp16 = false)
+      UINT iw, UINT ih, UINT ow, UINT oh, bool same_resource, bool allow_fp16 = false, bool allow_pq = false)
    {
       return same_resource && IsUpscaleSize(iw, ih, ow, oh) &&
          IsSingleSurface(source) && IsSingleSurface(target) &&
          source.Width == iw && source.Height == ih && target.Width == ow && target.Height == oh &&
-         source_view == target_view && IsTemporalColorView(source.Format, source_view, allow_fp16) &&
-         IsTemporalColorView(target.Format, target_view, allow_fp16);
+         source_view == target_view && IsTemporalColorView(source.Format, source_view, allow_fp16, allow_pq) &&
+         IsTemporalColorView(target.Format, target_view, allow_fp16, allow_pq);
    }
 }

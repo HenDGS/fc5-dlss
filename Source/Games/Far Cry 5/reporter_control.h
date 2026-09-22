@@ -34,7 +34,7 @@ namespace FC5
    class ReporterControl
    {
       HANDLE target = nullptr;
-      const char* status = "Reporting worker not suspended by Luma.";
+      const char* status = "RemoteDataProvider worker not suspended by Luma.";
       static uint64_t CPU(HANDLE h)
       {
          FILETIME c{}, e{}, k{}, u{};
@@ -80,7 +80,7 @@ namespace FC5
          { status = "Resume failed; retry Resume or close the game."; return false; }
          CloseHandle(target); target = nullptr;
          status = previous > 1 && previous != DWORD(-1) ?
-            "Our suspension removed; another tool still owns a suspension." : "Reporting worker resumed.";
+            "Our suspension removed; another tool still owns a suspension." : "RemoteDataProvider worker resumed.";
          return true;
       }
       bool Pause()
@@ -138,7 +138,7 @@ namespace FC5
                if (held.owned && AtPoll(h.value, base))
                {
                   target = h.value; h.value = nullptr; held.owned = false;
-                  status = "Reporting worker suspended until unchecked or game exits.";
+                  status = "RemoteDataProvider worker suspended until unchecked or game exits.";
                   return true;
                }
             }

@@ -1,5 +1,5 @@
 param(
-    [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+[-.a-zA-Z0-9]*$')][string]$Version = 'v1.0.0',
+    [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+[-.a-zA-Z0-9]*$')][string]$Version = 'v1.1.0',
     [string]$AddonPath,
     [string]$ExpectedAddonSHA256
 )
@@ -38,7 +38,7 @@ foreach ($folder in @('Global', 'Includes', 'Far Cry 5')) {
     }
 }
 
-Copy-Item -LiteralPath "$PSScriptRoot/README.md","$PSScriptRoot/LICENSE.md","$PSScriptRoot/THIRD-PARTY-NOTICES.md" -Destination $stage
+Copy-Item -LiteralPath "$PSScriptRoot/README.md","$PSScriptRoot/CHANGELOG.md","$PSScriptRoot/LICENSE.md","$PSScriptRoot/THIRD-PARTY-NOTICES.md" -Destination $stage
 Get-ChildItem -LiteralPath "$PSScriptRoot/licenses" -File | Copy-Item -Destination "$stage/licenses"
 $files = @(Get-ChildItem -LiteralPath $stage -Recurse -File | Sort-Object FullName | ForEach-Object {
     [ordered]@{ Path=$_.FullName.Substring($stage.Length+1).Replace('\','/'); Bytes=$_.Length; SHA256=(Get-FileHash -LiteralPath $_.FullName).Hash }
